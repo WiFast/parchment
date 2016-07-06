@@ -190,7 +190,15 @@ class ContainerBlot extends ShadowBlot implements Parent {
       if (node.nextSibling != null) {
         refBlot = Registry.find(node.nextSibling);
       }
-      let blot = Registry.find(node) || Registry.create(node);
+      let blot;
+      if (node instanceof HTMLFontElement) {
+        // node is in the form <font><span><b>...</b></span></font>
+        // Registry.create doesn't handle the <font> case well, and throws a ParchmentError
+        const BlotClass = <Registry.BlotConstructor>Registry.query(node.firstChild.firstChild);
+        blot = new BlotClass(node.firstChild.firstChild);
+      } else {
+        blot = Registry.find(node) || Registry.create(node);
+      }
       if (blot.next != refBlot || blot.next == null) {
         if (blot.parent != null) {
           blot.parent.children.remove(blot);
