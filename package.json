@@ -29,7 +29,7 @@
     "webpack": "^1.13.1"
   },
   "engines": {
-    "node": "^5.3",
+    "node": "^6.3",
     "npm": "^3.5"
   },
   "license": "BSD-3-Clause",
